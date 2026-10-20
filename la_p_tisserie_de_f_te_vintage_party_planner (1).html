@@ -1,0 +1,1281 @@
+<!DOCTYPE html>
+<html lang="en" class="h-full">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>La Pâtisserie de Fête — Vintage Party Planner</title>
+    <!-- Tailwind CSS -->
+    <script src="https://cdn.tailwindcss.com"></script>
+    <!-- Font Awesome Icons -->
+    <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.4.0/css/all.min.css">
+    <!-- Google Fonts for Vintage Elegance -->
+    <link rel="preconnect" href="https://fonts.googleapis.com">
+    <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+    <link href="https://fonts.googleapis.com/css2?family=Alex+Brush&family=Cinzel:wght@500;700;900&family=Playfair+Display:ital,wght@0,400;0,600;0,700;1,400&family=Plus+Jakarta+Sans:wght@400;500;600;700&display=swap" rel="stylesheet">
+
+    <script>
+        tailwind.config = {
+            theme: {
+                extend: {
+                    colors: {
+                        cream: '#FDFBF7',
+                        vanilla: '#F7F0E6',
+                        rose: {
+                            50: '#FFF5F6',
+                            100: '#FFE8EC',
+                            200: '#FCD1DA',
+                            300: '#F8A8B8',
+                            400: '#F2748F',
+                        },
+                        peach: {
+                            100: '#FFEAD8',
+                            200: '#FFD5B8',
+                            300: '#FFBC94',
+                        },
+                        mint: {
+                            100: '#E6F4ED',
+                            200: '#C7E6D7',
+                            300: '#9ED3BA',
+                        },
+                        sage: {
+                            100: '#EEF1E8',
+                            300: '#BEC9B0',
+                            500: '#8A9A78',
+                        },
+                        gold: {
+                            100: '#FFF7E6',
+                            300: '#F5DAA2',
+                            500: '#D4AF37',
+                            600: '#B8901C',
+                        },
+                        lavender: {
+                            100: '#F1ECF8',
+                            200: '#DCCEF0',
+                            300: '#C1AADC',
+                        }
+                    },
+                    fontFamily: {
+                        script: ['"Alex Brush"', 'cursive'],
+                        serifDisplay: ['"Cinzel"', 'serif'],
+                        serifBody: ['"Playfair Display"', 'serif'],
+                        sans: ['"Plus Jakarta Sans"', 'sans-serif'],
+                    },
+                    boxShadow: {
+                        'soft-cake': '0 10px 30px -5px rgba(242, 116, 143, 0.15), 0 4px 12px rgba(212, 175, 55, 0.08)',
+                        'inner-frosting': 'inset 0 2px 4px 0 rgba(255, 255, 255, 0.8), inset 0 -2px 4px 0 rgba(212, 175, 55, 0.15)',
+                        'vintage-card': '0 12px 35px -8px rgba(184, 144, 28, 0.12), 0 2px 8px rgba(0,0,0,0.03)'
+                    }
+                }
+            }
+        }
+    </script>
+
+    <style>
+        /* Scalloped Cake Frosting Border */
+        .scallop-border-top {
+            background-image: radial-gradient(circle at 10px -5px, transparent 12px, #FFF5F6 13px);
+            background-size: 20px 20px;
+            background-repeat: repeat-x;
+        }
+
+        .cake-border {
+            border: 3px double #F5DAA2;
+            box-shadow: 0 0 0 4px #FFF5F6, 0 0 0 6px #FCD1DA;
+        }
+
+        .lace-pattern {
+            background-color: #FDFBF7;
+            background-image: radial-gradient(#F8A8B8 0.75px, transparent 0.75px), radial-gradient(#F5DAA2 0.75px, #FDFBF7 0.75px);
+            background-size: 30px 30px;
+            background-position: 0 0, 15px 15px;
+        }
+
+        /* Sparkle float keyframes */
+        @keyframes floatSlow {
+            0%, 100% { transform: translateY(0px) rotate(0deg); }
+            50% { transform: translateY(-8px) rotate(3deg); }
+        }
+        .animate-float {
+            animation: floatSlow 4s ease-in-out infinite;
+        }
+
+        @keyframes pulseGlow {
+            0%, 100% { opacity: 0.6; transform: scale(1); }
+            50% { opacity: 0.9; transform: scale(1.03); }
+        }
+        .animate-pulse-glow {
+            animation: pulseGlow 3s ease-in-out infinite;
+        }
+
+        /* Custom Scrollbar */
+        ::-webkit-scrollbar {
+            width: 8px;
+        }
+        ::-webkit-scrollbar-track {
+            background: #FDFBF7;
+        }
+        ::-webkit-scrollbar-thumb {
+            background: #F8A8B8;
+            border-radius: 999px;
+            border: 2px solid #FDFBF7;
+        }
+        ::-webkit-scrollbar-thumb:hover {
+            background: #F2748F;
+        }
+    </style>
+</head>
+<body class="h-full bg-cream font-sans text-slate-800 antialiased lace-pattern select-none">
+
+    <!-- APP CONTAINER -->
+    <div id="app" class="min-h-screen flex flex-col justify-between relative overflow-hidden">
+
+        <!-- GLOBAL HEADER / BREADCRUMB NAV (Hidden on Welcome Screen) -->
+        <header id="global-header" class="hidden sticky top-0 z-40 bg-cream/90 backdrop-blur-md border-b-2 border-gold-300/40 px-4 sm:px-8 py-3 transition-all duration-500 shadow-sm">
+            <div class="max-w-7xl mx-auto flex flex-wrap items-center justify-between gap-3">
+                
+                <!-- Logo & Breadcrumbs -->
+                <div class="flex items-center space-x-3">
+                    <button onclick="navTo('main')" class="flex items-center space-x-2 group">
+                        <span class="w-9 h-9 rounded-full bg-rose-100 border border-gold-300 flex items-center justify-center text-rose-400 group-hover:bg-rose-200 transition-colors">
+                            <i class="fa-solid fa-cake-candles text-sm"></i>
+                        </span>
+                        <span class="font-serifDisplay font-bold text-lg text-slate-800 tracking-wide group-hover:text-rose-400 transition-colors hidden sm:inline">
+                            La Pâtisserie
+                        </span>
+                    </button>
+
+                    <div id="breadcrumbs" class="flex items-center text-xs sm:text-sm text-slate-500 space-x-1 sm:space-x-2">
+                        <!-- Dynamic breadcrumbs rendered here -->
+                    </div>
+                </div>
+
+                <!-- Search & Actions -->
+                <div class="flex items-center space-x-2 sm:space-x-3">
+                    <!-- Search Bar -->
+                    <div class="relative">
+                        <input type="text" id="global-search" oninput="handleSearch(this.value)" placeholder="Search any party theme (e.g. The Office, Pink, Ghibli)..." 
+                            class="w-44 sm:w-64 pl-8 pr-8 py-1.5 rounded-full bg-white border border-gold-300/60 text-xs text-slate-700 placeholder-slate-400 focus:outline-none focus:ring-2 focus:ring-rose-300 focus:border-transparent transition-all shadow-inner">
+                        <i class="fa-solid fa-magnifying-glass absolute left-3 top-2.5 text-xs text-gold-500"></i>
+                        <button onclick="clearSearch()" id="clear-search-btn" class="hidden absolute right-3 top-2 text-xs text-slate-400 hover:text-rose-400">
+                            <i class="fa-solid fa-xmark"></i>
+                        </button>
+
+                        <!-- Search Autocomplete Dropdown -->
+                        <div id="search-dropdown" class="hidden absolute left-0 right-0 mt-2 bg-white rounded-2xl shadow-xl border border-rose-100 max-h-64 overflow-y-auto z-50 p-2 text-xs divide-y divide-rose-50">
+                        </div>
+                    </div>
+
+                    <!-- Surprise Me Randomizer -->
+                    <button onclick="surpriseMe()" class="px-3 py-1.5 rounded-full bg-gradient-to-r from-rose-200 via-peach-100 to-gold-100 border border-gold-300/80 text-slate-700 hover:text-rose-600 text-xs font-semibold shadow-xs hover:shadow-soft-cake transition-all flex items-center space-x-1.5 group" title="Pick a random party theme!">
+                        <i class="fa-solid fa-dice text-rose-400 group-hover:rotate-180 transition-transform duration-500"></i>
+                        <span class="hidden md:inline">Surprise Me!</span>
+                    </button>
+
+                    <!-- Favorites Drawer Toggle -->
+                    <button onclick="toggleFavModal()" class="relative p-2 rounded-full bg-rose-50 hover:bg-rose-100 border border-rose-200 text-rose-500 transition-all" title="View Saved Themes">
+                        <i class="fa-solid fa-heart text-xs"></i>
+                        <span id="fav-badge" class="hidden absolute -top-1 -right-1 w-4 h-4 bg-rose-400 text-white rounded-full text-[9px] font-bold flex items-center justify-center">0</span>
+                    </button>
+                </div>
+
+            </div>
+        </header>
+
+        <!-- MAIN DYNAMIC CONTENT CONTAINER -->
+        <main class="flex-grow flex flex-col relative z-10">
+
+            <!-- ------------------------------------------------------------- -->
+            <!-- SCREEN 1: WELCOME SCREEN (Cake & Ribbon Aesthetic) -->
+            <!-- ------------------------------------------------------------- -->
+            <div id="screen-welcome" onclick="navTo('main')" class="min-h-screen flex flex-col items-center justify-center p-4 cursor-pointer relative group select-none overflow-hidden transition-all duration-700">
+                
+                <!-- Floating Bakery Ornaments -->
+                <div class="absolute top-10 left-10 text-rose-200 text-4xl animate-float opacity-70"><i class="fa-solid fa-cookie"></i></div>
+                <div class="absolute top-20 right-16 text-gold-300 text-3xl animate-float opacity-70" style="animation-delay: 1s;"><i class="fa-solid fa-wand-magic-sparkles"></i></div>
+                <div class="absolute bottom-16 left-1/4 text-peach-300 text-4xl animate-float opacity-70" style="animation-delay: 2s;"><i class="fa-solid fa-cake-candles"></i></div>
+                <div class="absolute bottom-20 right-20 text-rose-300 text-3xl animate-float opacity-70" style="animation-delay: 1.5s;"><i class="fa-solid fa-gift"></i></div>
+
+                <!-- Outer Vintage Decorative Frame -->
+                <div class="max-w-2xl w-full mx-auto p-6 sm:p-12 rounded-3xl bg-white/80 backdrop-blur-md cake-border shadow-soft-cake text-center relative transition-transform duration-500 group-hover:scale-[1.01]">
+                    
+                    <!-- Top Ribbon SVG -->
+                    <div class="absolute -top-6 left-1/2 -translate-x-1/2 bg-gradient-to-r from-rose-300 via-rose-200 to-peach-200 text-slate-800 text-xs font-serifDisplay uppercase tracking-widest px-8 py-1.5 rounded-full border border-gold-300 shadow-md">
+                        ✦ Est. Vintage Party Atelier ✦
+                    </div>
+
+                    <!-- Inner Delicate Cream Border -->
+                    <div class="border border-dashed border-rose-300/80 rounded-2xl p-6 sm:p-10 bg-cream/60">
+                        
+                        <!-- Cake Icon / Illustration -->
+                        <div class="w-20 h-20 sm:w-24 sm:h-24 mx-auto mb-4 rounded-full bg-gradient-to-tr from-rose-100 via-peach-100 to-gold-100 border-2 border-gold-300 flex items-center justify-center text-rose-400 text-3xl sm:text-4xl shadow-inner-frosting animate-pulse-glow">
+                            🎂
+                        </div>
+
+                        <!-- Elaborate Soft Script Heading -->
+                        <h2 class="font-script text-5xl sm:text-7xl text-rose-400 drop-shadow-sm leading-tight mb-2">
+                            Welcome party planners!!!
+                        </h2>
+
+                        <!-- Subtitle -->
+                        <p class="font-serifBody italic text-slate-600 text-base sm:text-lg mb-8 max-w-md mx-auto">
+                            Step into our vintage bakery of party inspirations. Delicious themes crafted with ribbons, confetti, and sweet memory making.
+                        </p>
+
+                        <!-- Tap Anywhere Call to Action Pill -->
+                        <div class="inline-flex items-center space-x-2 px-6 py-3 rounded-full bg-rose-400 text-white font-medium text-xs sm:text-sm tracking-wider uppercase shadow-lg shadow-rose-300/50 group-hover:bg-rose-500 transition-all transform group-hover:translate-y-[-2px]">
+                            <span>Tap Anywhere To Begin</span>
+                            <i class="fa-solid fa-heart text-xs text-rose-100 animate-bounce"></i>
+                        </div>
+
+                    </div>
+
+                    <!-- Bottom Scallop Frosting Accent -->
+                    <div class="mt-4 text-xs font-serifDisplay text-gold-600/80 tracking-widest uppercase">
+                        ~ Curated Celebration Guides & Aesthetics ~
+                    </div>
+                </div>
+
+            </div>
+
+
+            <!-- ------------------------------------------------------------- -->
+            <!-- SCREEN 2: MAIN CATEGORIES SCREEN (Round Badges Grid) -->
+            <!-- ------------------------------------------------------------- -->
+            <div id="screen-main" class="hidden max-w-7xl mx-auto w-full px-4 sm:px-8 py-8 sm:py-12 transition-all duration-500">
+                
+                <!-- Category Section Banner -->
+                <div class="text-center max-w-2xl mx-auto mb-10 sm:mb-14">
+                    <span class="font-script text-3xl sm:text-4xl text-rose-400 block mb-1">Pick Your Starting Flavor</span>
+                    <h1 class="font-serifDisplay font-bold text-2xl sm:text-4xl text-slate-800 tracking-wide">
+                        WHAT INSPIRES YOUR CELEBRATION?
+                    </h1>
+                    <div class="w-24 h-1 bg-gradient-to-r from-transparent via-gold-300 to-transparent mx-auto mt-3"></div>
+                    <p class="text-xs sm:text-sm text-slate-500 mt-2 font-serifBody italic">
+                        Choose a primary theme category below to explore curated aesthetic details.
+                    </p>
+                </div>
+
+                <!-- Round Category Badges Grid -->
+                <div id="main-categories-grid" class="grid grid-cols-2 sm:grid-cols-3 md:grid-cols-4 lg:grid-cols-6 gap-4 sm:gap-6">
+                    <!-- Dynamic Badges Inserted via JS -->
+                </div>
+
+            </div>
+
+
+            <!-- ------------------------------------------------------------- -->
+            <!-- SCREEN 3: SUBCATEGORIES SCREEN (Nested Lists / Regions / Studios) -->
+            <!-- ------------------------------------------------------------- -->
+            <div id="screen-subcategories" class="hidden max-w-7xl mx-auto w-full px-4 sm:px-8 py-8 transition-all duration-500">
+                
+                <!-- Category Header -->
+                <div class="flex flex-col md:flex-row md:items-center justify-between gap-4 mb-8 pb-4 border-b border-rose-200">
+                    <div>
+                        <span id="subcat-parent-label" class="text-xs font-bold font-serifDisplay uppercase tracking-widest text-gold-600">Primary Category</span>
+                        <h2 id="subcat-title" class="font-serifDisplay font-bold text-2xl sm:text-3xl text-slate-800 flex items-center gap-3">
+                            <!-- Category Title + Icon -->
+                        </h2>
+                        <p id="subcat-desc" class="text-xs sm:text-sm text-slate-500 font-serifBody italic mt-1">Select a specific theme direction below.</p>
+                    </div>
+
+                    <!-- Secondary Breakdown Filter Tabs (For complex breakdowns like Films -> Hollywood / International) -->
+                    <div id="subcat-tabs-container" class="hidden flex flex-wrap gap-2">
+                        <!-- Dynamic sub-tabs (e.g. Hollywood vs International) -->
+                    </div>
+                </div>
+
+                <!-- Subcategories Cards Grid -->
+                <div id="subcategories-grid" class="grid grid-cols-1 sm:grid-cols-2 md:grid-cols-3 lg:grid-cols-4 gap-4 sm:gap-6">
+                    <!-- Dynamic Subcategory Cards Inserted via JS -->
+                </div>
+
+            </div>
+
+
+            <!-- ------------------------------------------------------------- -->
+            <!-- SCREEN 4: THEME RECOMMENDATIONS SCREEN (Final Toolkit Page) -->
+            <!-- ------------------------------------------------------------- -->
+            <div id="screen-theme-detail" class="hidden max-w-6xl mx-auto w-full px-4 sm:px-8 py-8 transition-all duration-500">
+                
+                <!-- Theme Cover Header -->
+                <div class="relative rounded-3xl bg-white/90 border border-gold-300/80 p-6 sm:p-10 shadow-vintage-card overflow-hidden mb-8">
+                    <!-- Decorative Soft Background Glow -->
+                    <div class="absolute -right-10 -bottom-10 w-64 h-64 bg-rose-100 rounded-full blur-3xl pointer-events-none opacity-60"></div>
+                    <div class="absolute -left-10 -top-10 w-64 h-64 bg-gold-100 rounded-full blur-3xl pointer-events-none opacity-60"></div>
+
+                    <div class="relative z-10 flex flex-col md:flex-row items-start md:items-center justify-between gap-6">
+                        <div class="flex items-center space-x-4 sm:space-x-6">
+                            <div id="theme-icon-badge" class="w-16 h-16 sm:w-20 sm:h-20 rounded-2xl bg-gradient-to-tr from-rose-100 to-peach-100 border-2 border-gold-300 flex items-center justify-center text-3xl sm:text-4xl shadow-inner-frosting shrink-0">
+                                🎨
+                            </div>
+                            <div>
+                                <div class="flex items-center space-x-2">
+                                    <span id="theme-category-tag" class="text-[10px] sm:text-xs font-bold uppercase tracking-widest px-2.5 py-0.5 rounded-full bg-rose-100 text-rose-600 border border-rose-200">Category Tag</span>
+                                    <span id="theme-vibe-tag" class="text-[10px] sm:text-xs font-serifBody italic text-gold-600">Aesthetic Theme</span>
+                                </div>
+                                <h1 id="theme-detail-title" class="font-serifDisplay font-bold text-2xl sm:text-4xl text-slate-900 mt-1">
+                                    Theme Title
+                                </h1>
+                                <p id="theme-detail-desc" class="text-xs sm:text-sm text-slate-600 font-serifBody italic mt-1 max-w-2xl">
+                                    Theme description and aesthetic vibe overview...
+                                </p>
+                            </div>
+                        </div>
+
+                        <!-- Action Controls -->
+                        <div class="flex items-center space-x-3 shrink-0">
+                            <button id="fav-toggle-btn" onclick="toggleCurrentFavorite()" class="px-4 py-2 rounded-full border border-rose-300 bg-white hover:bg-rose-50 text-rose-500 text-xs font-semibold shadow-xs transition-all flex items-center space-x-2">
+                                <i id="fav-toggle-icon" class="fa-regular fa-heart"></i>
+                                <span id="fav-toggle-text">Save Theme</span>
+                            </button>
+                            <button onclick="shareTheme()" class="px-3 py-2 rounded-full border border-gold-300 bg-gold-50 hover:bg-gold-100 text-gold-700 text-xs font-semibold shadow-xs transition-all" title="Share this theme">
+                                <i class="fa-solid fa-share-nodes"></i>
+                            </button>
+                        </div>
+                    </div>
+                </div>
+
+                <!-- Toolkit Interactive Sections Tabs -->
+                <div class="flex border-b border-rose-200 gap-2 sm:gap-4 overflow-x-auto mb-6 pb-1 no-scrollbar">
+                    <button onclick="switchToolkitTab('food')" id="tab-btn-food" class="toolkit-tab-btn px-4 py-2.5 rounded-t-2xl font-serifDisplay text-xs sm:text-sm font-bold border-b-2 border-rose-400 text-rose-600 bg-white/70 transition-all flex items-center gap-2">
+                        <span>🍰 Food & Drink</span>
+                    </button>
+                    <button onclick="switchToolkitTab('decor')" id="tab-btn-decor" class="toolkit-tab-btn px-4 py-2.5 rounded-t-2xl font-serifDisplay text-xs sm:text-sm font-medium border-b-2 border-transparent text-slate-500 hover:text-slate-800 transition-all flex items-center gap-2">
+                        <span>🎀 Decor & Styling</span>
+                    </button>
+                    <button onclick="switchToolkitTab('activities')" id="tab-btn-activities" class="toolkit-tab-btn px-4 py-2.5 rounded-t-2xl font-serifDisplay text-xs sm:text-sm font-medium border-b-2 border-transparent text-slate-500 hover:text-slate-800 transition-all flex items-center gap-2">
+                        <span>🎈 Activities & Games</span>
+                    </button>
+                    <button onclick="switchToolkitTab('links')" id="tab-btn-links" class="toolkit-tab-btn px-4 py-2.5 rounded-t-2xl font-serifDisplay text-xs sm:text-sm font-medium border-b-2 border-transparent text-slate-500 hover:text-slate-800 transition-all flex items-center gap-2">
+                        <span>🔗 Web Links & Inspiration</span>
+                    </button>
+                </div>
+
+                <!-- Tab Content Containers -->
+                <div class="bg-white/90 rounded-3xl border border-rose-100 p-6 sm:p-8 shadow-sm">
+                    
+                    <!-- TAB 1: FOOD & DRINK -->
+                    <div id="toolkit-content-food" class="toolkit-content space-y-6">
+                        <div class="grid grid-cols-1 md:grid-cols-3 gap-6">
+                            <!-- Menu Suggestions -->
+                            <div class="p-5 rounded-2xl bg-cream border border-gold-300/60 space-y-3">
+                                <div class="flex items-center space-x-2 text-rose-500 font-serifDisplay font-bold text-base border-b border-rose-100 pb-2">
+                                    <i class="fa-solid fa-utensils"></i>
+                                    <span>Menu & Savory Bites</span>
+                                </div>
+                                <ul id="list-food-menu" class="space-y-2 text-xs sm:text-sm text-slate-700">
+                                    <!-- Dynamic List -->
+                                </ul>
+                            </div>
+
+                            <!-- Signature Cocktails / Drinks -->
+                            <div class="p-5 rounded-2xl bg-cream border border-gold-300/60 space-y-3">
+                                <div class="flex items-center space-x-2 text-gold-600 font-serifDisplay font-bold text-base border-b border-rose-100 pb-2">
+                                    <i class="fa-solid fa-martini-glass-citrus"></i>
+                                    <span>Signature Drinks</span>
+                                </div>
+                                <ul id="list-food-drinks" class="space-y-2 text-xs sm:text-sm text-slate-700">
+                                    <!-- Dynamic List -->
+                                </ul>
+                            </div>
+
+                            <!-- Cake & Dessert Inspiration -->
+                            <div class="p-5 rounded-2xl bg-cream border border-gold-300/60 space-y-3">
+                                <div class="flex items-center space-x-2 text-peach-300 font-serifDisplay font-bold text-base border-b border-rose-100 pb-2">
+                                    <i class="fa-solid fa-cake-candles"></i>
+                                    <span>Cake & Dessert Design</span>
+                                </div>
+                                <ul id="list-food-desserts" class="space-y-2 text-xs sm:text-sm text-slate-700">
+                                    <!-- Dynamic List -->
+                                </ul>
+                            </div>
+                        </div>
+                    </div>
+
+                    <!-- TAB 2: DECOR & STYLING -->
+                    <div id="toolkit-content-decor" class="toolkit-content hidden space-y-6">
+                        <div class="grid grid-cols-1 md:grid-cols-3 gap-6">
+                            <div class="p-5 rounded-2xl bg-cream border border-gold-300/60 space-y-3">
+                                <div class="flex items-center space-x-2 text-rose-500 font-serifDisplay font-bold text-base border-b border-rose-100 pb-2">
+                                    <i class="fa-solid fa-palette"></i>
+                                    <span>Color Palette & Accents</span>
+                                </div>
+                                <div id="decor-palette-swatches" class="flex items-center gap-2 py-2">
+                                    <!-- Swatches -->
+                                </div>
+                                <p id="decor-palette-desc" class="text-xs text-slate-600 italic"></p>
+                            </div>
+
+                            <div class="p-5 rounded-2xl bg-cream border border-gold-300/60 space-y-3">
+                                <div class="flex items-center space-x-2 text-sage-500 font-serifDisplay font-bold text-base border-b border-rose-100 pb-2">
+                                    <i class="fa-solid fa-lightbulb"></i>
+                                    <span>Tableware & Lighting</span>
+                                </div>
+                                <ul id="list-decor-table" class="space-y-2 text-xs sm:text-sm text-slate-700">
+                                    <!-- Dynamic -->
+                                </ul>
+                            </div>
+
+                            <div class="p-5 rounded-2xl bg-cream border border-gold-300/60 space-y-3">
+                                <div class="flex items-center space-x-2 text-lavender-300 font-serifDisplay font-bold text-base border-b border-rose-100 pb-2">
+                                    <i class="fa-solid fa-ribbon"></i>
+                                    <span>Banners & Backdrops</span>
+                                </div>
+                                <ul id="list-decor-backdrop" class="space-y-2 text-xs sm:text-sm text-slate-700">
+                                    <!-- Dynamic -->
+                                </ul>
+                            </div>
+                        </div>
+                    </div>
+
+                    <!-- TAB 3: ACTIVITIES & GAMES -->
+                    <div id="toolkit-content-activities" class="toolkit-content hidden space-y-6">
+                        <div class="grid grid-cols-1 md:grid-cols-3 gap-6">
+                            <div class="p-5 rounded-2xl bg-cream border border-gold-300/60 space-y-3">
+                                <div class="flex items-center space-x-2 text-rose-500 font-serifDisplay font-bold text-base border-b border-rose-100 pb-2">
+                                    <i class="fa-solid fa-dice text-rose-400"></i>
+                                    <span>Themed Trivia & Icebreakers</span>
+                                </div>
+                                <ul id="list-activities-games" class="space-y-2 text-xs sm:text-sm text-slate-700">
+                                    <!-- Dynamic -->
+                                </ul>
+                            </div>
+
+                            <div class="p-5 rounded-2xl bg-cream border border-gold-300/60 space-y-3">
+                                <div class="flex items-center space-x-2 text-gold-600 font-serifDisplay font-bold text-base border-b border-rose-100 pb-2">
+                                    <i class="fa-solid fa-music"></i>
+                                    <span>Playlist & Music Vibe</span>
+                                </div>
+                                <p id="activities-music-desc" class="text-xs sm:text-sm text-slate-600 italic mb-2"></p>
+                                <div class="p-3 bg-white rounded-xl border border-rose-100 flex items-center space-x-3">
+                                    <i class="fa-brands fa-spotify text-emerald-500 text-2xl"></i>
+                                    <div>
+                                        <div class="text-xs font-bold text-slate-800" id="activities-playlist-name">Theme Mix</div>
+                                        <div class="text-[10px] text-slate-500">Search this theme on Spotify / Apple Music</div>
+                                    </div>
+                                </div>
+                            </div>
+
+                            <div class="p-5 rounded-2xl bg-cream border border-gold-300/60 space-y-3">
+                                <div class="flex items-center space-x-2 text-purple-500 font-serifDisplay font-bold text-base border-b border-rose-100 pb-2">
+                                    <i class="fa-solid fa-shirt"></i>
+                                    <span>Dress Code & Favors</span>
+                                </div>
+                                <ul id="list-activities-dress" class="space-y-2 text-xs sm:text-sm text-slate-700">
+                                    <!-- Dynamic -->
+                                </ul>
+                            </div>
+                        </div>
+                    </div>
+
+                    <!-- TAB 4: WEB LINKS & INSPIRATION -->
+                    <div id="toolkit-content-links" class="toolkit-content hidden space-y-6">
+                        <div class="space-y-4">
+                            <p class="text-xs sm:text-sm text-slate-600 font-serifBody italic">
+                                Curated external resources, DIY blogs, and search shortcuts to jumpstart your decor shopping and recipes:
+                            </p>
+                            <div id="links-grid" class="grid grid-cols-1 sm:grid-cols-2 lg:grid-cols-3 gap-4">
+                                <!-- Dynamic Web Links Cards -->
+                            </div>
+                        </div>
+                    </div>
+
+                </div>
+
+            </div>
+
+        </main>
+
+        <!-- FOOTER -->
+        <footer class="relative z-10 border-t border-rose-200/60 bg-cream/80 backdrop-blur-xs py-4 px-4 text-center text-xs text-slate-500 font-serifBody">
+            <div class="max-w-7xl mx-auto flex flex-col sm:flex-row items-center justify-between gap-2">
+                <span>🎂 <strong>La Pâtisserie de Fête</strong> — Vintage Party Planning Studio</span>
+                <span class="italic text-rose-400">Crafted with ribbons, soft frosting & sweet imagination</span>
+            </div>
+        </footer>
+
+        <!-- SAVED FAVORITES MODAL -->
+        <div id="fav-modal" class="hidden fixed inset-0 z-50 bg-slate-900/40 backdrop-blur-xs flex items-center justify-center p-4">
+            <div class="bg-cream rounded-3xl border-2 border-gold-300 max-w-lg w-full p-6 shadow-2xl relative space-y-4">
+                <div class="flex items-center justify-between border-b border-rose-200 pb-3">
+                    <h3 class="font-serifDisplay font-bold text-lg text-slate-800 flex items-center gap-2">
+                        <i class="fa-solid fa-heart text-rose-400"></i>
+                        <span>Saved Party Themes</span>
+                    </h3>
+                    <button onclick="toggleFavModal()" class="text-slate-400 hover:text-slate-700 p-1">
+                        <i class="fa-solid fa-xmark text-lg"></i>
+                    </button>
+                </div>
+
+                <div id="fav-modal-list" class="max-h-80 overflow-y-auto space-y-2 pr-1">
+                    <!-- Dynamic Saved Themes -->
+                </div>
+
+                <div class="pt-2 border-t border-rose-100 flex justify-end">
+                    <button onclick="toggleFavModal()" class="px-4 py-1.5 rounded-full bg-rose-400 text-white text-xs font-semibold hover:bg-rose-500 transition-colors">
+                        Close
+                    </button>
+                </div>
+            </div>
+        </div>
+
+    </div>
+
+    <!-- APP JAVASCRIPT LOGIC DATA & NAVIGATION -->
+    <script>
+        /* -------------------------------------------------------------
+           DATA STRUCTURE: CATEGORIES & SUB-THEMES (WITH RICH BREAKDOWNS)
+        ------------------------------------------------------------- */
+        const PRIMARY_CATEGORIES = [
+            { id: 'color', name: 'Color', icon: '🎨', color: 'bg-rose-100 text-rose-500', desc: 'Themes based on dreamy color palettes & aesthetics' },
+            { id: 'mood', name: 'Mood', icon: '✨', color: 'bg-lavender-100 text-purple-600', desc: 'Atmospheric vibes from coziest afternoon tea to moody noir' },
+            { id: 'festival', name: 'Festival', icon: '🎏', color: 'bg-gold-100 text-gold-600', desc: 'Holidays, carnival traditions & cultural festivities' },
+            { id: 'season', name: 'Season', icon: '🌸', color: 'bg-mint-100 text-emerald-600', desc: 'Spring blossoms, sun-kissed summer, autumn harvest & winter snow' },
+            { id: 'food', name: 'Food', icon: '🥐', color: 'bg-peach-100 text-orange-600', desc: 'Culinary adventures, vintage bakeries & feast nights' },
+            { id: 'country', name: 'Country', icon: '🏛️', color: 'bg-sage-100 text-sage-500', desc: 'Global wanderlust, French country cottage & Italian summer' },
+            { id: 'books', name: 'Books', icon: '📚', color: 'bg-amber-100 text-amber-700', desc: 'Literary classics, dark academia & fairytale wonderlands' },
+            { id: 'shows', name: 'Shows', icon: '📺', color: 'bg-rose-100 text-rose-600', desc: 'Binge-worthy TV series & iconic sitcom settings' },
+            { id: 'films', name: 'Films', icon: '🎬', color: 'bg-indigo-100 text-indigo-600', desc: 'Hollywood studios, classic golden era & international cinema', hasSubBreakdown: true },
+            { id: 'games', name: 'Video Games', icon: '🎮', color: 'bg-teal-100 text-teal-600', desc: 'Cozy life simulators, retro arcades & fantasy realms' },
+            { id: 'songs', name: 'Songs', icon: '🎵', color: 'bg-pink-100 text-pink-600', desc: 'Eras music aesthetics, disco fever & vintage jazz bars' },
+            { id: 'strategy', name: 'Strategy & Tabletop', icon: '🎲', color: 'bg-yellow-100 text-yellow-700', desc: 'Murder mystery, board game cafes & casino royale nights' }
+        ];
+
+        // SUB-THEMES DATABASE WITH DETAILED TOOLKIT
+        const THEMES_DB = [
+            // SHOWS
+            {
+                id: 'the-office',
+                catId: 'shows',
+                name: 'The Office',
+                subtitle: 'Dunder Mifflin Scranton Party Committee',
+                icon: '🏢',
+                desc: 'A hilarious Scranton-style celebration filled with Dundie Awards, Schrute Farms beets, pretzel day treats, and Party Planning Committee decor.',
+                toolkit: {
+                    food: {
+                        menu: ['Kevin\'s Famous Chili (served carefully!)', 'Schrute Farms Pickled Beets & Goat Cheese Crostini', 'Alfredo\'s Pizza Cafe Slices (Not Pizza by Alfredo)'],
+                        drinks: ['One-Degree-Celcius Orange Juice & Vodka', 'Scranton Steam Train Lager', 'Meredith\'s Margaritas'],
+                        desserts: ['Stanley\'s Pretzel Day Cinnamon Sugar Pretzels', 'Jello Molds with staplers inside', 'Birthday Cake with half-blown balloons']
+                    },
+                    decor: {
+                        swatches: ['#718096', '#E2E8F0', '#BEE3F8', '#CBD5E0'],
+                        paletteDesc: 'Corporate Slate, Cream Paper, Muted Blue & Beige',
+                        tableware: ['Dunder Mifflin paper cups', 'Standard beige office desk tablecloths', 'Desk nameplates as place cards'],
+                        backdrop: ['"IT IS YOUR BIRTHDAY." brown & grey balloon banner', 'Dundie Trophy centerpieces']
+                    },
+                    activities: {
+                        games: ['The Dundie Awards Ceremony with real custom trophies', 'Dunder Mifflin Office Trivia Challenge', 'Jello Mold Scavenger Hunt'],
+                        musicDesc: '80s Rock, Pop hits, Scrantonicity cover band tunes & Office theme song',
+                        playlistName: 'Dunder Mifflin Breakroom Jams',
+                        dressCode: 'Business casual, Dwight-style mustard shirts, or Pam-style cardigans'
+                    },
+                    links: [
+                        { name: 'Dundie Trophy Replica Source', url: 'https://www.google.com/search?q=dundie+trophy+replica+buy', icon: 'fa-trophy' },
+                        { name: 'Office Pretzel Day Recipe Guide', url: 'https://www.google.com/search?q=pretzel+day+soft+pretzel+recipe', icon: 'fa-utensils' },
+                        { name: 'DIY "It Is Your Birthday" Banner', url: 'https://www.google.com/search?q=it+is+your+birthday+banner+diy', icon: 'fa-image' }
+                    ]
+                }
+            },
+            {
+                id: 'bridgerton',
+                catId: 'shows',
+                name: 'Bridgerton Regency Ball',
+                subtitle: 'High Society Promenade & Tea Party',
+                icon: '👑',
+                desc: 'Step into the 1813 Regency London ballroom with pastel floral garlands, classical pop quartet music, and Lady Whistledown society papers.',
+                toolkit: {
+                    food: {
+                        menu: ['Cucumber & Smoked Salmon Tea Sandwiches', 'Savory Scones with Clotted Cream', 'Roasted Fig & Goat Cheese Tartlets'],
+                        drinks: ['Empress 1908 Violet Lavender Gin Fizz', 'Chilled Earl Grey Champagne Punch', 'Rose Petal Iced Tea'],
+                        desserts: ['Macaron Towers in Wisteria Pastel Tones', 'Frosted Berry Victoria Sponge Cake', 'Lemon Lavender Glazed Shortbread']
+                    },
+                    decor: {
+                        swatches: ['#C1AADC', '#9ED3BA', '#F8A8B8', '#F5DAA2'],
+                        paletteDesc: 'Regency Lavender, Sage Green, Powder Rose & Gold Leaf',
+                        tableware: ['Vintage floral fine bone china', 'Crystal goblets & tiered cake stands', 'Candelabras with tall tapered wax candles'],
+                        backdrop: ['Cascading wisteria & English rose floral arches', 'Lady Whistledown Society Scandal Papers']
+                    },
+                    activities: {
+                        games: ['Lady Whistledown Secret Society Gossip Game', 'Crown "Flirt of the Season" with Dance Cards', 'Regency Etiquette & Fan Signaling Trivia'],
+                        musicDesc: 'Vitamin String Quartet classical covers of modern pop songs (Taylor Swift, Ariana Grande)',
+                        playlistName: 'Bridgerton Regency Ball Orchestral',
+                        dressCode: 'Empire waist gowns, long silk gloves, feather headpieces, and tailored suits'
+                    },
+                    links: [
+                        { name: 'Vitamin String Quartet Playlist', url: 'https://www.google.com/search?q=vitamin+string+quartet+bridgerton+playlist', icon: 'fa-music' },
+                        { name: 'Lady Whistledown Printable Templates', url: 'https://www.google.com/search?q=lady+whistledown+paper+printable', icon: 'fa-newspaper' }
+                    ]
+                }
+            },
+            {
+                id: 'friends',
+                catId: 'shows',
+                name: 'Friends Central Perk',
+                subtitle: 'The One With The Party',
+                icon: '☕',
+                desc: 'Gather your inner circle around the orange couch with Central Perk coffee mugs, Rachel\'s famous trifle, and Thanksgiving apartment vibes.',
+                toolkit: {
+                    food: {
+                        menu: ['Joey\'s Special Two Pizzas', 'Monica\'s Gourmet Thanksgiving Leftover Sandwich', 'Central Perk Avocado Toast'],
+                        drinks: ['Giant Mugs of French Press Coffee', 'Phoebe\'s Herbal Tea Blend', 'Central Perk Iced Caramel Macchiato'],
+                        desserts: ['Rachel\'s Trifle (minus the beef!)', 'Nestlé Toll House Chocolate Chip Cookies', 'Red Velvet Central Perk Cupcakes']
+                    },
+                    decor: {
+                        swatches: ['#D4AF37', '#8A9A78', '#F2748F', '#3182CE'],
+                        paletteDesc: 'Central Perk Orange Couch, Monica Purple Door, Coffee Gold',
+                        tableware: ['Over-sized mismatched ceramic mugs', 'Yellow door frame photo props', 'Cozy knit couch throws'],
+                        backdrop: ['Yellow Peep-Hole Frame Photo Wall', 'Central Perk Neon Sign logo']
+                    },
+                    activities: {
+                        games: ['The Apartment Bet Trivia Game ("What is Chandler Bing\'s job?")', 'Smelly Cat Sing-along with acoustic guitar', 'Central Perk Coffee Cup Stacking'],
+                        musicDesc: '90s Alternative Rock, The Rembrandts, Hootie & the Blowfish, and Phoebe Buffay acoustic tracks',
+                        playlistName: 'Central Perk Coffeehouse 90s Jams',
+                        dressCode: '90s denim, Rachel Green overalls, Chandler sweater vests, or Monica boots'
+                    },
+                    links: [
+                        { name: 'Monica\'s Yellow Frame Door Decor', url: 'https://www.google.com/search?q=friends+yellow+peephole+frame+door', icon: 'fa-door-open' },
+                        { name: 'Friends Apartment Trivia Quiz', url: 'https://www.google.com/search?q=friends+tv+show+trivia+questions', icon: 'fa-question' }
+                    ]
+                }
+            },
+
+            // FILMS (Breakdown: Hollywood Studios vs International Cinema)
+            {
+                id: 'ghibli',
+                catId: 'films',
+                subGroup: 'international',
+                studio: 'Studio Ghibli (Japan)',
+                name: 'Studio Ghibli Magical Feast',
+                subtitle: 'Spirited Away & Totoro Nostalgia',
+                icon: '🍃',
+                desc: 'A dreamlike, enchanted Japanese aesthetic filled with soot sprites, Totoro moss gardens, ramen bowls, and Howl’s moving castle brunch.',
+                toolkit: {
+                    food: {
+                        menu: ['Howl\'s Thick Cut Bacon & Fried Eggs', 'Spirited Away Steamed Red Bean Buns (Anpan)', 'Ponyo\'s Hot Ham & Egg Ramen'],
+                        drinks: ['Ramune Peach Soda with Marble', 'Matcha Green Tea Latte with Oat Foam', 'Calpis Milk Drinks'],
+                        desserts: ['Totoro Black Sesame Cupcakes', 'Soot Sprite Chocolate Truffles', 'Konpeito Sugar Candies']
+                    },
+                    decor: {
+                        swatches: ['#8A9A78', '#9ED3BA', '#F5DAA2', '#F8A8B8'],
+                        paletteDesc: 'Moss Green, Sky Blue, Warm Birch & Sunset Peach',
+                        tableware: ['Rustic wooden bento platters', 'Ceramic tea cups & bamboo chopsticks', 'Fairy light glass terrariums'],
+                        backdrop: ['Lush moss & green foliage backdrops', 'Hanging paper lanterns & Soot Sprite plushies']
+                    },
+                    activities: {
+                        games: ['Origami Soot Sprite Crafting', 'Guess the Ghibli Film Soundtrack Trivia', 'Soot Sprite Toss Game'],
+                        musicDesc: 'Joe Hisaishi Piano & Orchestral Masterpieces',
+                        playlistName: 'Studio Ghibli Piano Chill',
+                        dressCode: 'Kiki\'s black dress & red bow, Totoro onesies, or cottagecore woodland wear'
+                    },
+                    links: [
+                        { name: 'Joe Hisaishi Ghibli Soundtrack', url: 'https://www.google.com/search?q=joe+hisaishi+studio+ghibli+playlist', icon: 'fa-music' },
+                        { name: 'DIY Soot Sprite Decorations', url: 'https://www.google.com/search?q=diy+soot+sprite+craft', icon: 'fa-palette' }
+                    ]
+                }
+            },
+            {
+                id: 'a24-midsommar',
+                catId: 'films',
+                subGroup: 'hollywood',
+                studio: 'A24 Studios',
+                name: 'A24 Pastel Midsommar Festival',
+                subtitle: 'Swedish Folk Maypole Celebration',
+                icon: '👑',
+                desc: 'Bright, sunlit Swedish folk aesthetic with towering floral crowns, outdoor picnic tables, pastel wild flowers, and Scandinavian feast items.',
+                toolkit: {
+                    food: {
+                        menu: ['Swedish Meatballs with Lingonberry Jam', 'Pickled Herring & Dill Potato Salad', 'Open-Faced Smörgåsbord Rye Toasts'],
+                        drinks: ['Aquavit Botanical Cocktails', 'Elderflower & Lemon Sparklers', 'Cloudberry Wine Punch'],
+                        desserts: ['Princess Cake (Prinsesstårta) with Marzipan Rose', 'Swedish Cinnamon Buns (Kanelbullar)', 'Wild Berry Tartlets']
+                    },
+                    decor: {
+                        swatches: ['#FFF7E6', '#F8A8B8', '#9ED3BA', '#D4AF37'],
+                        paletteDesc: 'Sunlit Cream, Wild Rose, Meadow Green & Butter Yellow',
+                        tableware: ['Linen white tablecloths', 'Pressed wildflower glassware', 'Birchwood candleholders'],
+                        backdrop: ['Floral Maypole centerpiece', 'May Queen Flower Crown Headpiece Display']
+                    },
+                    activities: {
+                        games: ['Flower Crown Weaving Workshop', 'Maypole Dancing around the lawn', 'A24 Film Buff Trivia'],
+                        musicDesc: 'Nordic Folk Music, Acoustic String Instrumentals & Summer Solstice Ambient',
+                        playlistName: 'A24 Midsommar Folk Solstice',
+                        dressCode: 'All-white embroidered linen dresses, flower crowns, and Scandinavian folk tunics'
+                    },
+                    links: [
+                        { name: 'DIY Swedish Flower Crown Tutorial', url: 'https://www.google.com/search?q=diy+swedish+flower+crown+tutorial', icon: 'fa-leaf' },
+                        { name: 'Prinsesstårta Swedish Princess Cake Recipe', url: 'https://www.google.com/search?q=prinsesstarta+swedish+princess+cake+recipe', icon: 'fa-cake' }
+                    ]
+                }
+            },
+            {
+                id: 'classic-hollywood',
+                catId: 'films',
+                subGroup: 'hollywood',
+                studio: 'Golden Age Hollywood (1920s-1950s)',
+                name: 'Golden Age Glamour Night',
+                subtitle: 'Audrey Hepburn & Casablanca Velvet Bar',
+                icon: '🍸',
+                desc: 'Step onto the red carpet with classic black tie elegance, champagne towers, vintage film reels, and Old Hollywood jazz.',
+                toolkit: {
+                    food: {
+                        menu: ['Oysters Rockefeller & Shrimp Cocktail', 'Beef Wellington Sliders', 'Truffle Deviled Eggs with Caviar'],
+                        drinks: ['French 75 Champagne Cocktails', 'Classic Old Fashioned with Angostura Bitters', 'Sidecar in Coupe Glasses'],
+                        desserts: ['Champagne Glazed Petit Fours', 'Dark Chocolate Mousse Cups', 'Gold Leaf Coated Strawberries']
+                    },
+                    decor: {
+                        swatches: ['#1A202C', '#D4AF37', '#FFF5F6', '#800020'],
+                        paletteDesc: 'Velvet Black, Gold Foil, Pearl Cream & Burgundy',
+                        tableware: ['Gold rimmed champagne coupes', 'Black velvet table runners', 'Vintage film strip place cards'],
+                        backdrop: ['Red Carpet Entryway with Velvet Ropes', 'Vintage Brass Film Projectors & Marquee Lights']
+                    },
+                    activities: {
+                        games: ['Oscars Style Golden Statuette Awards', 'Classic Cinema Quote Trivia', 'Black & White Photo Booth'],
+                        musicDesc: 'Frank Sinatra, Ella Fitzgerald, Louis Armstrong & 1940s Big Band Jazz',
+                        playlistName: 'Old Hollywood Velvet Cocktail Bar',
+                        dressCode: 'Glamorous floor-length satin gowns, tuxedos, faux fur stoles, and pearls'
+                    },
+                    links: [
+                        { name: 'Champagne Coupe Tower Stacking Guide', url: 'https://www.google.com/search?q=champagne+coupe+tower+stacking+guide', icon: 'fa-glass-cheers' },
+                        { name: 'Vintage Oscars Photo Booth Props', url: 'https://www.google.com/search?q=vintage+hollywood+photo+booth+props', icon: 'fa-camera' }
+                    ]
+                }
+            },
+
+            // COLORS
+            {
+                id: 'pink-vintage',
+                catId: 'color',
+                name: 'Coquette Pink Bakery',
+                subtitle: 'Soft Bows & Marie Antoinette Frosting',
+                icon: '🎀',
+                desc: 'An ultra-feminine, vintage soft pink dreamworld filled with satin ribbons, pearl garlands, lace overlays, and piped buttercream cakes.',
+                toolkit: {
+                    food: {
+                        menu: ['Prosciutto & Fig Crostini on Pink Plates', 'Pink Beet Hummus with Star-Shaped Pita', 'Mini Smoked Salmon Finger Sandwiches'],
+                        drinks: ['Pink Dragonfruit Lemonade', 'Rose Water Gin Sparklers', 'Chilled Strawberry Milk boba'],
+                        desserts: ['Vintage Piped Lambeth Cake with Maraschino Cherries', 'Pink Velvet Cupcakes with Bow topper', 'Rose Water Macaron Pyramids']
+                    },
+                    decor: {
+                        swatches: ['#F8A8B8', '#FFE8EC', '#FFF7E6', '#D4AF37'],
+                        paletteDesc: 'Baby Pink, Soft Blush, Vanilla Cream & Touches of Gold',
+                        tableware: ['Vintage scalloped pink glassware', 'Satin pink bow tied napkins', 'Lace table runners with pearl strings'],
+                        backdrop: ['Floor-to-ceiling pink satin bow draping', 'Vintage ornate gold mirrors with lipstick messages']
+                    },
+                    activities: {
+                        games: ['Cake Decorating Competition with Piping Bags', 'DIY Silk Ribbon Hair Bow Creation', 'Coquette Aesthetic Bingo'],
+                        musicDesc: 'Lana Del Rey, Laufey Jazz, Paris Cafe Accordion & Soft Dream Pop',
+                        playlistName: 'Vintage Pink Coquette Soft Jams',
+                        dressCode: 'Pastel pink vintage dresses, corsets, lace stockings, and bow hair accessories'
+                    },
+                    links: [
+                        { name: 'Lambeth Piping Cake Technique Guide', url: 'https://www.google.com/search?q=lambeth+piping+cake+technique', icon: 'fa-cake-candles' },
+                        { name: 'Laufey Vintage Jazz Spotify Playlist', url: 'https://www.google.com/search?q=laufey+vintage+jazz+playlist', icon: 'fa-music' }
+                    ]
+                }
+            },
+            {
+                id: 'sage-cottage',
+                catId: 'color',
+                name: 'Sage & Botanical Garden',
+                subtitle: 'Earthy Wildflowers & Eucalyptus',
+                icon: '🌿',
+                desc: 'Calming sage green palette paired with natural wood, botanical prints, fresh eucalyptus garlands, and organic garden bites.',
+                toolkit: {
+                    food: {
+                        menu: ['Pesto & Burrata Flatbreads', 'Cucumber Herb Salad with Edible Flowers', 'Wild Mushroom & Thyme Tartlets'],
+                        drinks: ['Cucumber Mint Gin Tonic', 'Matcha Mint Lemonade', 'Herbal Elderflower Spritz'],
+                        desserts: ['Pistachio Rose Cake with Sage Buttercream', 'Matcha White Chocolate Cookies', 'Pear & Rosemary Tart']
+                    },
+                    decor: {
+                        swatches: ['#8A9A78', '#BEC9B0', '#F7F0E6', '#D4AF37'],
+                        paletteDesc: 'Sage Green, Olive Leaf, Warm Oatmeal & Brass',
+                        tableware: ['Earthy stoneware ceramic plates', 'Woven rattan chargers', 'Pressed leaf place cards'],
+                        backdrop: ['Cascading fresh eucalyptus wall hanging', 'Terracotta pot botanical garden display']
+                    },
+                    activities: {
+                        games: ['Herb & Spice Blind Smell Test', 'Potted Plant Favor Crafting', 'Botanical Trivia'],
+                        musicDesc: 'Acoustic Folk, Fleet Foxes, Vance Joy, and Soft Garden Chill',
+                        playlistName: 'Botanical Sage Garden Afternoon',
+                        dressCode: 'Earthy linen garments, sage green attire, and botanical prints'
+                    },
+                    links: [
+                        { name: 'DIY Fresh Eucalyptus Garland', url: 'https://www.google.com/search?q=diy+eucalyptus+garland+tutorial', icon: 'fa-leaf' }
+                    ]
+                }
+            },
+
+            // FOOD
+            {
+                id: 'matcha-bakery',
+                catId: 'food',
+                name: 'Vintage Matcha & Tea Atelier',
+                subtitle: 'Japanese Tea House & Soft Pastries',
+                icon: '🍵',
+                desc: 'Serene green matcha aesthetics with ceremonial whisking stations, soft mochi, French pastries, and cozy rattan seating.',
+                toolkit: {
+                    food: {
+                        menu: ['Egg Salad Sandwiches on Japanese Milk Bread', 'Matcha Cream Cheese Croissants', 'Savory Miso Butter Baguettes'],
+                        drinks: ['Iced Strawberry Matcha Latte (Double Layered)', 'Ceremonial Hot Whisked Matcha', 'Genmaicha Roasted Rice Tea'],
+                        desserts: ['Matcha Crepe Mille-Cake', 'Matcha Mochi Donuts', 'White Chocolate Matcha Canelés']
+                    },
+                    decor: {
+                        swatches: ['#9ED3BA', '#EEF1E8', '#F5DAA2', '#8A9A78'],
+                        paletteDesc: 'Matcha Foam, Bamboo Cream, Soft Gold & Sage',
+                        tableware: ['Handmade ceramic Chawan whisking bowls', 'Bamboo whisks (Chasen) as props', 'Linen green napkins'],
+                        backdrop: ['Shoji screen partitions with hanging tea leaves', 'Minimalist floral Ikebana arrangements']
+                    },
+                    activities: {
+                        games: ['Ceremonial Matcha Whisking Competition', 'Guess the Tea Blind Tasting', 'Mochi Shaping Workshop'],
+                        musicDesc: 'Lofi Cafe Beats, Japanese City Pop, and Soft Acoustic Guitar',
+                        playlistName: 'Matcha Bakery Lofi Cafe Vibes',
+                        dressCode: 'Soft mint, cream knits, or Japanese kimono-inspired cardigans'
+                    },
+                    links: [
+                        { name: 'Strawberry Matcha Latte Layering Recipe', url: 'https://www.google.com/search?q=strawberry+matcha+latte+recipe', icon: 'fa-mug-hot' }
+                    ]
+                }
+            },
+
+            // GAMES
+            {
+                id: 'cozy-animal-crossing',
+                catId: 'games',
+                name: 'Cozy Island Getaway',
+                subtitle: 'Animal Crossing Island Celebration',
+                icon: '🍃',
+                desc: 'A super cute, cozy island celebration with Bell Bag party favors, Brewster Roost coffee cups, fossil hunt activities, and pastel balloons.',
+                toolkit: {
+                    food: {
+                        menu: ['K.K. Slider\'s Campus Pizza Sliders', 'Fruit Basket Platter (Apples, Pears, Peaches, Oranges)', 'Turnip Cream Soup'],
+                        drinks: ['The Roost Special Brewed Pigeon Milk Coffee', 'Island Coconut Punch in Real Coconuts', 'Pecan Milk Tea'],
+                        desserts: ['Bell Bag Sugar Cookies with Star Icing', 'Fossil Sugar Cake with Edible Dirt', 'Peach Pie Slices']
+                    },
+                    decor: {
+                        swatches: ['#9ED3BA', '#F5DAA2', '#F8A8B8', '#BEE3F8'],
+                        paletteDesc: 'Island Grass Green, Butter Yellow, Coral Pink & Ocean Blue',
+                        tableware: ['Leaf shaped green plates', 'Yellow gift box favors tied with red ribbon', 'Grid paper map tablecloths'],
+                        backdrop: ['Floating Present Balloon Arch with Box', 'The Roost Cafe Signboard']
+                    },
+                    activities: {
+                        games: ['Real Life Fossil Dig in Backyard', 'Turnip Market Stock Betting Game', 'K.K. Slider Acoustic Guitar Request'],
+                        musicDesc: 'Animal Crossing New Horizons Soundtrack (Hourly music & K.K. Slider songs)',
+                        playlistName: 'Cozy Animal Crossing Island Music',
+                        dressCode: 'Hawaiian shirts, Tom Nook sweater vests, or cozy island wear'
+                    },
+                    links: [
+                        { name: 'DIY Bell Bag Party Favor Tutorial', url: 'https://www.google.com/search?q=diy+animal+crossing+bell+bag+tutorial', icon: 'fa-bag-shopping' }
+                    ]
+                }
+            }
+        ];
+
+        /* -------------------------------------------------------------
+           STATE MANAGEMENT
+        ------------------------------------------------------------- */
+        let state = {
+            currentScreen: 'welcome', // 'welcome', 'main', 'subcategories', 'detail'
+            selectedCategory: null,
+            selectedSubGroup: 'all', // For Film subgroups: 'all', 'hollywood', 'international'
+            selectedTheme: null,
+            favorites: JSON.parse(localStorage.getItem('lafete_favs') || '[]')
+        };
+
+        /* -------------------------------------------------------------
+           INITIALIZATION & EVENT LISTENERS
+        ------------------------------------------------------------- */
+        document.addEventListener('DOMContentLoaded', () => {
+            renderMainCategories();
+            updateFavBadge();
+        });
+
+        /* -------------------------------------------------------------
+           NAVIGATION CONTROLLER
+        ------------------------------------------------------------- */
+        function navTo(screen, payload = null) {
+            state.currentScreen = screen;
+
+            // Hide all screens
+            document.getElementById('screen-welcome').classList.add('hidden');
+            document.getElementById('screen-main').classList.add('hidden');
+            document.getElementById('screen-subcategories').classList.add('hidden');
+            document.getElementById('screen-theme-detail').classList.add('hidden');
+
+            const header = document.getElementById('global-header');
+
+            if (screen === 'welcome') {
+                header.classList.add('hidden');
+                document.getElementById('screen-welcome').classList.remove('hidden');
+            } else {
+                header.classList.remove('hidden');
+            }
+
+            if (screen === 'main') {
+                state.selectedCategory = null;
+                state.selectedTheme = null;
+                document.getElementById('screen-main').classList.remove('hidden');
+                renderBreadcrumbs();
+                window.scrollTo({ top: 0, behavior: 'smooth' });
+            } 
+            else if (screen === 'subcategories') {
+                if (payload) state.selectedCategory = payload;
+                document.getElementById('screen-subcategories').classList.remove('hidden');
+                renderSubcategories();
+                renderBreadcrumbs();
+                window.scrollTo({ top: 0, behavior: 'smooth' });
+            }
+            else if (screen === 'detail') {
+                if (payload) state.selectedTheme = payload;
+                document.getElementById('screen-theme-detail').classList.remove('hidden');
+                renderThemeDetail();
+                renderBreadcrumbs();
+                window.scrollTo({ top: 0, behavior: 'smooth' });
+            }
+        }
+
+        /* -------------------------------------------------------------
+           RENDER SCREEN 2: MAIN CATEGORIES (Round Badges Grid)
+        ------------------------------------------------------------- */
+        function renderMainCategories() {
+            const grid = document.getElementById('main-categories-grid');
+            grid.innerHTML = '';
+
+            PRIMARY_CATEGORIES.forEach(cat => {
+                const badge = document.createElement('div');
+                badge.className = `group flex flex-col items-center cursor-pointer p-4 rounded-3xl bg-white/80 border border-gold-300/50 hover:border-gold-500 shadow-soft-cake hover:shadow-vintage-card transition-all duration-300 transform hover:-translate-y-1.5`;
+                badge.onclick = () => navTo('subcategories', cat.id);
+
+                badge.innerHTML = `
+                    <div class="w-16 h-16 sm:w-20 sm:h-20 rounded-full ${cat.color} flex items-center justify-center text-2xl sm:text-3xl shadow-inner-frosting mb-3 group-hover:scale-110 transition-transform duration-300 border-2 border-white">
+                        ${cat.icon}
+                    </div>
+                    <h3 class="font-serifDisplay font-bold text-sm sm:text-base text-slate-800 text-center tracking-wide group-hover:text-rose-500 transition-colors">
+                        ${cat.name}
+                    </h3>
+                    <p class="text-[10px] sm:text-xs text-slate-400 text-center font-serifBody italic line-clamp-2 mt-1">
+                        ${cat.desc}
+                    </p>
+                `;
+                grid.appendChild(badge);
+            });
+        }
+
+        /* -------------------------------------------------------------
+           RENDER SCREEN 3: SUBCATEGORIES (With Film Studio Breakdowns)
+        ------------------------------------------------------------- */
+        function renderSubcategories() {
+            const cat = PRIMARY_CATEGORIES.find(c => c.id === state.selectedCategory) || PRIMARY_CATEGORIES[0];
+            
+            document.getElementById('subcat-title').innerHTML = `${cat.icon} ${cat.name} Themes`;
+            document.getElementById('subcat-desc').innerText = cat.desc;
+
+            // Handle Sub-Tabs for Films (Hollywood vs International)
+            const tabsContainer = document.getElementById('subcat-tabs-container');
+            if (cat.hasSubBreakdown) {
+                tabsContainer.classList.remove('hidden');
+                tabsContainer.innerHTML = `
+                    <button onclick="setSubGroup('all')" class="px-3 py-1 rounded-full text-xs font-semibold ${state.selectedSubGroup === 'all' ? 'bg-rose-400 text-white' : 'bg-white border border-rose-200 text-slate-600'}">All Studios</button>
+                    <button onclick="setSubGroup('hollywood')" class="px-3 py-1 rounded-full text-xs font-semibold ${state.selectedSubGroup === 'hollywood' ? 'bg-rose-400 text-white' : 'bg-white border border-rose-200 text-slate-600'}">🎬 Hollywood & Classics</button>
+                    <button onclick="setSubGroup('international')" class="px-3 py-1 rounded-full text-xs font-semibold ${state.selectedSubGroup === 'international' ? 'bg-rose-400 text-white' : 'bg-white border border-rose-200 text-slate-600'}">🌍 International & Studio Ghibli</button>
+                `;
+            } else {
+                tabsContainer.classList.add('hidden');
+            }
+
+            // Filter themes belonging to this category
+            let themes = THEMES_DB.filter(t => t.catId === cat.id);
+
+            if (cat.hasSubBreakdown && state.selectedSubGroup !== 'all') {
+                themes = themes.filter(t => t.subGroup === state.selectedSubGroup);
+            }
+
+            const grid = document.getElementById('subcategories-grid');
+            grid.innerHTML = '';
+
+            if (themes.length === 0) {
+                grid.innerHTML = `
+                    <div class="col-span-full py-12 text-center text-slate-400 font-serifBody italic">
+                        More ${cat.name} themes coming soon to our bakery! Try searching or click "Surprise Me!".
+                    </div>
+                `;
+                return;
+            }
+
+            themes.forEach(theme => {
+                const card = document.createElement('div');
+                card.className = `group cursor-pointer rounded-3xl bg-white border border-rose-100 hover:border-gold-300 p-5 shadow-soft-cake hover:shadow-vintage-card transition-all duration-300 flex flex-col justify-between transform hover:-translate-y-1`;
+                card.onclick = () => navTo('detail', theme.id);
+
+                card.innerHTML = `
+                    <div class="space-y-3">
+                        <div class="flex items-center justify-between">
+                            <span class="w-12 h-12 rounded-2xl bg-rose-50 border border-gold-200 flex items-center justify-center text-2xl">
+                                ${theme.icon}
+                            </span>
+                            ${theme.studio ? `<span class="text-[10px] font-bold uppercase tracking-wider px-2 py-0.5 rounded-full bg-gold-100 text-gold-700">${theme.studio}</span>` : ''}
+                        </div>
+                        <div>
+                            <span class="text-[10px] font-serifBody italic text-rose-400">${theme.subtitle}</span>
+                            <h3 class="font-serifDisplay font-bold text-lg text-slate-800 group-hover:text-rose-500 transition-colors">
+                                ${theme.name}
+                            </h3>
+                            <p class="text-xs text-slate-500 font-serifBody italic line-clamp-3 mt-1">
+                                ${theme.desc}
+                            </p>
+                        </div>
+                    </div>
+
+                    <div class="mt-4 pt-3 border-t border-rose-50 flex items-center justify-between text-xs font-semibold text-rose-400 group-hover:text-rose-500">
+                        <span>Explore Toolkit</span>
+                        <i class="fa-solid fa-arrow-right text-xs group-hover:translate-x-1 transition-transform"></i>
+                    </div>
+                `;
+                grid.appendChild(card);
+            });
+        }
+
+        function setSubGroup(subGroup) {
+            state.selectedSubGroup = subGroup;
+            renderSubcategories();
+        }
+
+        /* -------------------------------------------------------------
+           RENDER SCREEN 4: THEME TOOLKIT RECOMMENDATIONS
+        ------------------------------------------------------------- */
+        function renderThemeDetail() {
+            const theme = THEMES_DB.find(t => t.id === state.selectedTheme) || THEMES_DB[0];
+            const cat = PRIMARY_CATEGORIES.find(c => c.id === theme.catId) || PRIMARY_CATEGORIES[0];
+
+            document.getElementById('theme-icon-badge').innerText = theme.icon;
+            document.getElementById('theme-category-tag').innerText = cat.name;
+            document.getElementById('theme-vibe-tag').innerText = theme.subtitle;
+            document.getElementById('theme-detail-title').innerText = theme.name;
+            document.getElementById('theme-detail-desc').innerText = theme.desc;
+
+            // Update Favorite Toggle Button
+            updateFavBtnState();
+
+            // Populate Food Tab Data
+            const food = theme.toolkit.food;
+            document.getElementById('list-food-menu').innerHTML = food.menu.map(i => `<li class="flex items-start gap-2"><span class="text-rose-400">✦</span><span>${i}</span></li>`).join('');
+            document.getElementById('list-food-drinks').innerHTML = food.drinks.map(i => `<li class="flex items-start gap-2"><span class="text-gold-500">✦</span><span>${i}</span></li>`).join('');
+            document.getElementById('list-food-desserts').innerHTML = food.desserts.map(i => `<li class="flex items-start gap-2"><span class="text-peach-300">✦</span><span>${i}</span></li>`).join('');
+
+            // Populate Decor Tab Data
+            const decor = theme.toolkit.decor;
+            document.getElementById('decor-palette-swatches').innerHTML = decor.swatches.map(hex => `<span class="w-7 h-7 rounded-full border border-white shadow-sm" style="background-color: ${hex}" title="${hex}"></span>`).join('');
+            document.getElementById('decor-palette-desc').innerText = decor.paletteDesc;
+            document.getElementById('list-decor-table').innerHTML = decor.tableware.map(i => `<li class="flex items-start gap-2"><span class="text-sage-500">✦</span><span>${i}</span></li>`).join('');
+            document.getElementById('list-decor-backdrop').innerHTML = decor.backdrop.map(i => `<li class="flex items-start gap-2"><span class="text-lavender-300">✦</span><span>${i}</span></li>`).join('');
+
+            // Populate Activities Tab Data
+            const act = theme.toolkit.activities;
+            document.getElementById('list-activities-games').innerHTML = act.games.map(i => `<li class="flex items-start gap-2"><span class="text-rose-400">✦</span><span>${i}</span></li>`).join('');
+            document.getElementById('activities-music-desc').innerText = act.musicDesc;
+            document.getElementById('activities-playlist-name').innerText = act.playlistName;
+            document.getElementById('list-activities-dress').innerHTML = act.dressCode ? `<li class="flex items-start gap-2"><span class="text-purple-400">✦</span><span>${act.dressCode}</span></li>` : '';
+
+            // Populate External Links Tab Data
+            const linksGrid = document.getElementById('links-grid');
+            linksGrid.innerHTML = theme.toolkit.links.map(link => `
+                <a href="${link.url}" target="_blank" class="p-4 rounded-2xl bg-cream border border-gold-300/60 hover:border-gold-500 hover:shadow-md transition-all flex items-center justify-between group">
+                    <div class="flex items-center space-x-3">
+                        <i class="fa-solid ${link.icon || 'fa-link'} text-rose-400 text-lg"></i>
+                        <span class="text-xs font-semibold text-slate-800 group-hover:text-rose-500 transition-colors">${link.name}</span>
+                    </div>
+                    <i class="fa-solid fa-arrow-up-right-from-square text-xs text-slate-400 group-hover:text-rose-400"></i>
+                </a>
+            `).join('');
+
+            // Reset to first tab
+            switchToolkitTab('food');
+        }
+
+        function switchToolkitTab(tab) {
+            document.querySelectorAll('.toolkit-tab-btn').forEach(btn => {
+                btn.classList.remove('border-rose-400', 'text-rose-600', 'bg-white/70');
+                btn.classList.add('border-transparent', 'text-slate-500');
+            });
+            const activeBtn = document.getElementById(`tab-btn-${tab}`);
+            if (activeBtn) {
+                activeBtn.classList.remove('border-transparent', 'text-slate-500');
+                activeBtn.classList.add('border-rose-400', 'text-rose-600', 'bg-white/70');
+            }
+
+            document.querySelectorAll('.toolkit-content').forEach(content => content.classList.add('hidden'));
+            const activeContent = document.getElementById(`toolkit-content-${tab}`);
+            if (activeContent) activeContent.classList.remove('hidden');
+        }
+
+        /* -------------------------------------------------------------
+           BREADCRUMBS RENDERER
+        ------------------------------------------------------------- */
+        function renderBreadcrumbs() {
+            const crumbs = document.getElementById('breadcrumbs');
+            crumbs.innerHTML = '';
+
+            let html = `<button onclick="navTo('main')" class="hover:text-rose-400 transition-colors">Categories</button>`;
+
+            if (state.currentScreen === 'subcategories' || state.currentScreen === 'detail') {
+                const cat = PRIMARY_CATEGORIES.find(c => c.id === state.selectedCategory);
+                if (cat) {
+                    html += ` <span>/</span> <button onclick="navTo('subcategories', '${cat.id}')" class="hover:text-rose-400 transition-colors">${cat.name}</button>`;
+                }
+            }
+
+            if (state.currentScreen === 'detail') {
+                const theme = THEMES_DB.find(t => t.id === state.selectedTheme);
+                if (theme) {
+                    html += ` <span>/</span> <span class="font-bold text-rose-500">${theme.name}</span>`;
+                }
+            }
+
+            crumbs.innerHTML = html;
+        }
+
+        /* -------------------------------------------------------------
+           SEARCH & SURPRISE ME UTILITIES
+        ------------------------------------------------------------- */
+        function handleSearch(query) {
+            const dropdown = document.getElementById('search-dropdown');
+            const clearBtn = document.getElementById('clear-search-btn');
+
+            if (!query.trim()) {
+                dropdown.classList.add('hidden');
+                clearBtn.classList.add('hidden');
+                return;
+            }
+
+            clearBtn.classList.remove('hidden');
+            const q = query.toLowerCase();
+
+            const matches = THEMES_DB.filter(t => 
+                t.name.toLowerCase().includes(q) || 
+                t.subtitle.toLowerCase().includes(q) ||
+                t.desc.toLowerCase().includes(q)
+            );
+
+            if (matches.length === 0) {
+                dropdown.innerHTML = `<div class="p-3 text-slate-400 italic text-center">No matching party themes found</div>`;
+            } else {
+                dropdown.innerHTML = matches.map(m => `
+                    <div onclick="selectSearchResult('${m.id}', '${m.catId}')" class="p-2.5 hover:bg-rose-50 cursor-pointer flex items-center justify-between rounded-xl transition-colors">
+                        <div class="flex items-center space-x-2">
+                            <span class="text-base">${m.icon}</span>
+                            <div>
+                                <div class="font-bold text-slate-800">${m.name}</div>
+                                <div class="text-[10px] text-slate-400">${m.subtitle}</div>
+                            </div>
+                        </div>
+                        <i class="fa-solid fa-chevron-right text-[10px] text-rose-300"></i>
+                    </div>
+                `).join('');
+            }
+
+            dropdown.classList.remove('hidden');
+        }
+
+        function selectSearchResult(themeId, catId) {
+            state.selectedCategory = catId;
+            document.getElementById('search-dropdown').classList.add('hidden');
+            document.getElementById('global-search').value = '';
+            document.getElementById('clear-search-btn').classList.add('hidden');
+            navTo('detail', themeId);
+        }
+
+        function clearSearch() {
+            document.getElementById('global-search').value = '';
+            document.getElementById('search-dropdown').classList.add('hidden');
+            document.getElementById('clear-search-btn').classList.add('hidden');
+        }
+
+        function surpriseMe() {
+            const randomTheme = THEMES_DB[Math.floor(Math.random() * THEMES_DB.length)];
+            state.selectedCategory = randomTheme.catId;
+            navTo('detail', randomTheme.id);
+        }
+
+        /* -------------------------------------------------------------
+           FAVORITES MANAGEMENT
+        ------------------------------------------------------------- */
+        function toggleCurrentFavorite() {
+            if (!state.selectedTheme) return;
+            const idx = state.favorites.indexOf(state.selectedTheme);
+            if (idx > -1) {
+                state.favorites.splice(idx, 1);
+            } else {
+                state.favorites.push(state.selectedTheme);
+            }
+            localStorage.setItem('lafete_favs', JSON.stringify(state.favorites));
+            updateFavBtnState();
+            updateFavBadge();
+        }
+
+        function updateFavBtnState() {
+            const isFav = state.favorites.includes(state.selectedTheme);
+            const icon = document.getElementById('fav-toggle-icon');
+            const text = document.getElementById('fav-toggle-text');
+
+            if (isFav) {
+                icon.className = 'fa-solid fa-heart text-rose-500';
+                text.innerText = 'Saved in Favorites';
+            } else {
+                icon.className = 'fa-regular fa-heart text-rose-500';
+                text.innerText = 'Save Theme';
+            }
+        }
+
+        function updateFavBadge() {
+            const badge = document.getElementById('fav-badge');
+            if (state.favorites.length > 0) {
+                badge.innerText = state.favorites.length;
+                badge.classList.remove('hidden');
+            } else {
+                badge.classList.add('hidden');
+            }
+        }
+
+        function toggleFavModal() {
+            const modal = document.getElementById('fav-modal');
+            modal.classList.toggle('hidden');
+
+            if (!modal.classList.contains('hidden')) {
+                const list = document.getElementById('fav-modal-list');
+                if (state.favorites.length === 0) {
+                    list.innerHTML = `<div class="py-8 text-center text-xs text-slate-400 italic">No saved themes yet. Click the heart on any theme page to save!</div>`;
+                } else {
+                    list.innerHTML = state.favorites.map(id => {
+                        const theme = THEMES_DB.find(t => t.id === id);
+                        if (!theme) return '';
+                        return `
+                            <div onclick="navTo('detail', '${theme.id}'); toggleFavModal();" class="p-3 bg-white hover:bg-rose-50 rounded-2xl border border-rose-100 flex items-center justify-between cursor-pointer transition-colors">
+                                <div class="flex items-center space-x-3">
+                                    <span class="text-xl">${theme.icon}</span>
+                                    <div>
+                                        <div class="text-xs font-bold text-slate-800">${theme.name}</div>
+                                        <div class="text-[10px] text-slate-400">${theme.subtitle}</div>
+                                    </div>
+                                </div>
+                                <i class="fa-solid fa-arrow-right text-xs text-rose-400"></i>
+                            </div>
+                        `;
+                    }).join('');
+                }
+            }
+        }
+
+        function shareTheme() {
+            const theme = THEMES_DB.find(t => t.id === state.selectedTheme);
+            if (!theme) return;
+
+            const dummyText = `Check out this ${theme.name} party theme on La Pâtisserie de Fête!`;
+            const el = document.createElement('textarea');
+            el.value = dummyText;
+            document.body.appendChild(el);
+            el.select();
+            document.execCommand('copy');
+            document.body.removeChild(el);
+
+            alert('Theme details copied to clipboard!');
+        }
+    </script>
+</body>
+</html>
